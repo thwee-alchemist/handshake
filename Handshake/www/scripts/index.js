@@ -11,20 +11,28 @@
         // Handle the Cordova pause and resume events
         document.addEventListener( 'pause', onPause.bind( this ), false );
         document.addEventListener('resume', onResume.bind(this), false);
-        this.onResume();
-    };
+        onResume();
+    }
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
-    };
+
+    }
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
 
         // TODO: Get device location
-        // Encode it as a QR image
-        // Display the QR image
-        // Turn on the camera
+        var location_promise = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        location_promise.then((location) => {
+            // Encode it as a QR image
+            // Display the QR image
+            $('#qrcode').qrcode({ width: 64, height: 64, text: JSON.stringify(location) });
+        });
+// Turn on the camera
         // loog for another qr code.
         // {position: , rotation: }
 
@@ -33,5 +41,5 @@
         // encode data in qrcode, 
         // establish video link
         // exhcange files between one another. 
-    };
+    }
 } )();
